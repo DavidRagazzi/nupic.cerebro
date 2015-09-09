@@ -1,35 +1,23 @@
 import collections
 import json
+from pkg_resources import DistributionNotFound, require, VersionConflict
+import sys
 
 __version__ = "1.1.2"
 
 
-def versionList(versionString):
-  """
-  Transform a version from string to integer list in order to make possible versions comparison.
-
-  :param versionString: a string containing the version in the format '9.9.9.xxx'
-  :return: a integer list containing the version in the format ['9', '9', '9']. Alphanumerics are ignored.
-  """
-
-  versionInt = []
-  versionSplit = versionString.split(".")
-  for v in versionSplit:
-    if v.isdigit():
-      versionInt.append(v)
-    else:
-      break
-  return versionInt
-
 try:
-  import nupic
-except ImportError:
-  raise ImportError("NuPIC library not found! Access https://github.com/numenta/nupic/ for get help on how install it.")
-versionRequiredMin = "0.2.2"
-versionRequiredMax = "99.99.99"
-versionFound = nupic.__version__
-if not (versionList(versionRequiredMin) <= versionList(versionFound) <= versionList(versionRequiredMax)):
-  raise Exception("Unexpected version of NuPIC Library! Expected between %s and %s, but detected %s." % (versionRequiredMin, versionRequiredMax, versionFound))
+  require("nupic>=0.2.2")
+except DistributionNotFound:
+  print >> sys.stderr, ("NuPIC library not found! Access "
+                        "https://github.com/numenta/nupic/ for get help on "
+                        "how install it.")
+  raise
+except VersionConflict as ex:
+  print >> sys.stderr, ("Unexpected version of NuPIC Library!  Expected {}, "
+                        "but found {} at {}"
+                        .format(str(ex.req), str(ex.dist), ex.dist.location))
+  raise
 
 try:
   from PyQt4 import Qt, QtCore, QtGui, QtOpenGL

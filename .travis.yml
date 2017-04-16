@@ -17,6 +17,12 @@ env:
     - PATH=$TRAVIS_BUILD_DIR/python/bin:$PATH
     - NUPIC_STUDIO_DEPLOYMENT_BUILD=true
 
+matrix:
+  # This excludes OSX GCC builds.
+  exclude:
+    - os: osx
+      compiler: gcc
+
 git:
   submodules: false
 

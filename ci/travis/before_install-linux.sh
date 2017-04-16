@@ -13,6 +13,10 @@ sudo apt-get install -qq gcc-4.8 g++-4.8
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 90
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
 
+echo ">>> Installing virtualenv..."
+sudo apt-get install python$PY_VER python$PY_VER-dev python-virtualenv cmake-data
+sudo ls -laFh /usr/lib/libpython$PY_VER.so
+
 # Install virtual display
 sudo apt-get install xvfb
 
